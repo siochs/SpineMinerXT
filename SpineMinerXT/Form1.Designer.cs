@@ -123,7 +123,6 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Control";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             this.groupBox1.MouseHover += new System.EventHandler(this.groupBox1_MouseHover);
             // 
             // HelpLabel
@@ -279,7 +278,6 @@
             this.label5.Size = new System.Drawing.Size(27, 13);
             this.label5.TabIndex = 18;
             this.label5.Text = "Find";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // textBox2
             // 
@@ -489,9 +487,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(12, 19);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(149, 17);
+            this.checkBox1.Size = new System.Drawing.Size(157, 17);
             this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Ignore spine morphologies";
+            this.checkBox1.Text = "I didn\'t use morphology tags";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -499,7 +497,7 @@
             // 
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox1.Image = global::SpineMinerXT.Properties.Resources.b1;
-            this.pictureBox1.Location = new System.Drawing.Point(166, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(169, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(88, 76);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -531,7 +529,9 @@
             this.ClientSize = new System.Drawing.Size(797, 652);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "SpineMinerXT (Simon Ochs 2013)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
