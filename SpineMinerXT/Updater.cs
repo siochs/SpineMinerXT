@@ -19,10 +19,11 @@ namespace MyUpdater
         {
 
             if (e.ProgressPercentage < 100)
+            {
                 uLabel.Text = "Download " + Convert.ToString(e.ProgressPercentage) + " % completed.";
-
-            uPBar.Value = e.ProgressPercentage;
-            uProgress.Update();
+                uPBar.Value = e.ProgressPercentage;
+                uProgress.Update();
+            }
         }
 
         private void progressCompleted(object sender, string uProgramName, string uNewVersion)
@@ -35,6 +36,7 @@ namespace MyUpdater
             uP.StartInfo.FileName = uProgramName + uNewVersion + ".exe";
             uP.StartInfo.Arguments = "-d:" + Application.ExecutablePath;
             uP.Start();
+            
             Application.Exit();
         }
 
@@ -84,7 +86,7 @@ namespace MyUpdater
 
                 uPBar.Size = new Size(480, 30);
                 uPBar.Location = new Point(10, 40);
-                uPBar.Minimum = 1;
+                uPBar.Minimum = 0;
                 uPBar.Maximum = 100;
                 uPBar.Value = 1;
 
@@ -93,6 +95,7 @@ namespace MyUpdater
                 uProgress.Text = "Updater";
                 uProgress.SetBounds(0, 0, 500, 80);
                 uProgress.StartPosition = FormStartPosition.CenterScreen;
+                //uProgress.ShowInTaskbar = false;
 
                 uProgress.Controls.Add(uLabel);
                 uProgress.Controls.Add(uPBar);
@@ -113,13 +116,13 @@ namespace MyUpdater
                         uProgress.Close();
                         return;
                     }
-
+                    //uForm.ShowInTaskbar = false;
                     uForm.WindowState = FormWindowState.Minimized;
+                    uForm.Update();
 
                     //yes, user wants to install it. Begin download
                     uLabel.Text = "Downloading ";
                     uProgress.Update();
-
                     Uri uUri = new Uri(uLocator + uProgramName + uVersionOnline + ".exe");
                     WebClient uDownloadClient = new WebClient();
                     uDownloadClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
@@ -135,7 +138,7 @@ namespace MyUpdater
                     //does file exist?
 
                     WebRequest request = WebRequest.Create(uUri);
-                    request.Method = "HEAD";
+                    request.Method = "GET";
 
                     try
                     {
