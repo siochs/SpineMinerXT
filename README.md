@@ -12,7 +12,7 @@ SpineMinerXT was written in C# using [Microsoft's Visual Studio 2010 Ultimate](h
 To build SpineMinerXT, download and install Microsoft's Visual Studio and create SpineMiner from the build menu. After successfull build, the executable is located in the `bin/` directory. 
 
 ##Using SpineMinerXT
-SpineMinerXT requires [Microsoft's .NET](http://www.microsoft.com/net "Microsofts .NET") Framework 4 or higher. If you don't have it installed you can download it from Microsoft's web page. 
+SpineMinerXT requires [Microsoft's .NET](http://www.microsoft.com/net "Microsofts .NET") Framework 4 or higher. If you don't have it installed you can download it from Microsoft's web page. SpineMinerXT won't run without internet access.
 
 
 ###Running SpineMinerXT the first time
