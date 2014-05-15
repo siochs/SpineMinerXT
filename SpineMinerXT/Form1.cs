@@ -34,7 +34,7 @@ namespace SpineMinerXT
             }
 
             // auto updater infos
-            const string app_version = "1.01";
+            const string app_version = "1.03";
             const string app_name = "SpineMinerXT_";
             const string update_locator = "http://github.com/siochs/SpineMinerXT/releases/download/deploy/";
 
