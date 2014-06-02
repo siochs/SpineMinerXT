@@ -5,6 +5,9 @@ using System.IO;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Management;
+using System.Net.NetworkInformation;
+using System.Linq;
 
 namespace MyUpdater
 {
@@ -38,6 +41,60 @@ namespace MyUpdater
             uP.Start();
             
             Application.Exit();
+        }
+
+        // license key generator
+        private string generateKey()
+        {
+            string key = "EE";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
+
+            foreach (ManagementObject wmi_HD in searcher.Get())
+            {
+                // get the hardware serial no.
+                if (wmi_HD["SerialNumber"] != null)
+                {
+                    key = wmi_HD["SerialNumber"].ToString();
+                    break;
+                }
+                    
+            }
+
+
+            var macAddr =
+            (
+            from nic in NetworkInterface.GetAllNetworkInterfaces()
+            where nic.OperationalStatus == OperationalStatus.Up
+            select nic.GetPhysicalAddress().ToString()
+            ).FirstOrDefault();
+
+            key = key + "-" + macAddr;
+            key = key.Replace(" ", string.Empty);
+            return key;
+        }
+
+        private bool testKey(string key)
+        {
+            try
+            {
+                WebClient uWebClient = new WebClient();
+                uWebClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
+                Stream uStream = uWebClient.OpenRead("http://www.stadtmauer-wachenheim.de/spineminer/sm.php?id=" + key);
+                StreamReader uStreamReader = new StreamReader(uStream);
+
+                string uResult = uStreamReader.ReadToEnd();
+                uStreamReader.Close();
+
+                if (uResult.Contains("spineminer:00-granted")) return true;
+                else return false;
+            }
+            catch (WebException uWebEx)
+            {
+                //connection failed
+                MessageBox.Show("Cannot reach server: " + uWebEx.Status, "DB Verification");
+                return false;
+            }
+
         }
 
         
@@ -102,6 +159,17 @@ namespace MyUpdater
 
                 uProgress.Show();
                 uProgress.Update();
+
+                // generate license key
+                string hw_key = generateKey();
+
+                // test the key
+                if (testKey(hw_key) == false)
+                {
+                    MessageBox.Show("Could not verify SpineMinerXT database.", "DB Verification");
+                    Environment.Exit(-1);
+                }
+
                 
                 //check the version
                 string uVersionOnline = uCheckVersion(uLocator, uVersionInfo);
