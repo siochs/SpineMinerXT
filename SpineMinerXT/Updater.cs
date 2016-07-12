@@ -44,7 +44,7 @@ namespace MyUpdater
         }
 
         // license key generator
-        private string generateKey()
+        private string _generateKey()
         {
             string key = "EE";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PhysicalMedia");
@@ -79,7 +79,9 @@ namespace MyUpdater
             {
                 WebClient uWebClient = new WebClient();
                 uWebClient.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-                Stream uStream = uWebClient.OpenRead("http://www.stadtmauer-wachenheim.de/spineminer/sm.php?id=" + key);
+                //Stream uStream = uWebClient.OpenRead("http://www.stadtmauer-wachenheim.de/spineminer/sm.php?id=" + key);
+                // new licensing: https://raw.githubusercontent.com/siochs/SpineMinerXT/master/licensing.lic
+                Stream uStream = uWebClient.OpenRead("https://raw.githubusercontent.com/siochs/SpineMinerXT/master/licensing.lic");
                 StreamReader uStreamReader = new StreamReader(uStream);
 
                 string uResult = uStreamReader.ReadToEnd();
@@ -91,7 +93,7 @@ namespace MyUpdater
             catch (WebException uWebEx)
             {
                 //connection failed
-                MessageBox.Show("Cannot reach server: " + uWebEx.Status, "DB Verification");
+                MessageBox.Show("Cannot reach server: " + uWebEx.Status, "Licesing");
                 return false;
             }
 
@@ -161,12 +163,13 @@ namespace MyUpdater
                 uProgress.Update();
 
                 // generate license key
-                string hw_key = generateKey();
+                //string hw_key = generateKey();
+                string hw_key = "null";
 
                 // test the key
                 if (testKey(hw_key) == false)
                 {
-                    MessageBox.Show("Could not verify SpineMinerXT database.", "DB Verification");
+                    MessageBox.Show("Could not fetch end user licence.", "Licence Error");
                     Environment.Exit(-1);
                 }
 
