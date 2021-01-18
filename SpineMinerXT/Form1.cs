@@ -25,7 +25,7 @@ namespace SpineMinerXT
         {
             InitializeComponent();
 
-            
+
             // when SpineMinerXT.exe received the -d option then delete the specified file!
             string replace_file = "";
             if (args.Length > 0 && args[0].Contains("-d:"))
@@ -33,7 +33,7 @@ namespace SpineMinerXT
                 replace_file = args[0].Substring(3, args[0].Length - 3);
                 if (replace_file == Application.ExecutablePath) return;
             }
-
+            /* auto update mechanism deactivated, this application won't be maintained anymore
             // auto updater infos
             const string app_version = "1.06";
             const string app_name = "SpineMinerXT_";
@@ -45,6 +45,7 @@ namespace SpineMinerXT
 
             // run the auto updater
             Updater Upd = new Updater(this, update_locator, app_name, app_version, replace_file);
+            */
         }
 
         // enable some controls only when no errors appeared
@@ -73,7 +74,7 @@ namespace SpineMinerXT
             pictureBox9.Visible = true;
             pictureBox10.Visible = true;
         }
-        
+
         // disable some controls only when errors appeared
         private void DisableControls()
         {
@@ -136,7 +137,7 @@ namespace SpineMinerXT
                 return;
             }
             else
-            // a warning occured. 
+            // a warning occured.
             if (richTextBox1.Find("Warning>", 0) != -1)
             {
                 MessageBox.Show("Warnings occured. I hope you know what you are doing.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -196,7 +197,7 @@ namespace SpineMinerXT
             {
                 if (richTextBox1.InvokeRequired)
                 {
-                    richTextBox1.BeginInvoke(new MethodInvoker(delegate() 
+                    richTextBox1.BeginInvoke(new MethodInvoker(delegate()
                         {
                             // then process data
                             richTextBox1.AppendText(strMessage + "\n");
@@ -206,7 +207,7 @@ namespace SpineMinerXT
                 }
 
             }
-        } 
+        }
 
 
         private void RunSC(object sender, EventArgs e, string param)
@@ -240,7 +241,7 @@ namespace SpineMinerXT
                     Application.DoEvents();
                     hwnd = FindWindow(null, P.MainWindowTitle);
                 }
-                
+
                 // embed the window
                 richTextBox1.AppendText("done\nEmbedding prompt...");
                 SetParent(hwnd, richTextBox1.Handle);
@@ -258,7 +259,7 @@ namespace SpineMinerXT
                 StartInfo.RedirectStandardOutput = true;
                 StartInfo.UseShellExecute = false;
                 StartInfo.ErrorDialog = false;
-                
+
                 P.EnableRaisingEvents = true;
                 P.Exited += P_NoWindowHasExited;
                 P.StartInfo = StartInfo;
@@ -391,7 +392,7 @@ namespace SpineMinerXT
             if (x == "") RunSC(sender, e, "-q:" + textBox1.Text + ".sqlite");
             else
             RunSC(sender, e, "-r:" + textBox1.Text + ".sqlite -pipe:"+x);
-            
+
         }
 
         // show yellow help label when mouse over...
@@ -448,17 +449,17 @@ namespace SpineMinerXT
 
         private void pictureBox8_MouseHover(object sender, EventArgs e)
         {
-            ShowHelpLabel(sender, e, "Do find & replace\nWarning: beta status!"); 
+            ShowHelpLabel(sender, e, "Do find & replace\nWarning: beta status!");
         }
 
         private void pictureBox10_MouseHover(object sender, EventArgs e)
         {
-            ShowHelpLabel(sender, e, "Reset\nDBSCAN"); 
+            ShowHelpLabel(sender, e, "Reset\nDBSCAN");
         }
 
         private void pictureBox9_MouseHover(object sender, EventArgs e)
         {
-            ShowHelpLabel(sender, e, "Rund DBSCAN"); 
+            ShowHelpLabel(sender, e, "Rund DBSCAN");
         }
 
         private void pictureBox9_Click(object sender, EventArgs e)
